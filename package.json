@@ -1,9 +1,10 @@
 {
   "name": "wowgo-utils",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@ctrl/tinycolor": "^3.4.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
