@@ -126,7 +126,7 @@ interface Opts {
  * @param opts 繼承 Opts 介面，若需要搭配背景色產生色板，則需傳入
  * @returns patterns 為顏色字串所組成的字串陣列，即為色板
  */
-export default function generate(color: string, opts: Opts = {}): string[] {
+export function generate(color: string, opts: Opts = {}): string[] {
     const patterns: Array<string> = [];
     const pColor = inputToRGB(color);
     for (let i = lightColorCount; i > 0; i -= 1) {

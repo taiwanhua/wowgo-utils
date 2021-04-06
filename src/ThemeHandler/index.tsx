@@ -733,9 +733,9 @@ ${customTheme?.base?.taggedTemplate}
 export const themeMaker =
     (
         props: any,
-        propsTheme: ((style: IcssTaggedTemplateObject, uiStore: object | undefined, porpsFromDom: any, utils: any) => IcssTaggedTemplateObject) | undefined,
+        propsTheme: ((style: IcssTaggedTemplateObject, uiStore: any, porpsFromDom: any, utils: any) => IcssTaggedTemplateObject) | undefined,
         uiTheme: IcssTaggedTemplateObject,
-        uiStore: object | undefined
+        uiStore: any
     )
         :
         string => {
@@ -777,23 +777,23 @@ export interface IcssTaggedTemplateObjectWithDomKey {
  */
 export const themeMakerWithDomKey = <T extends IcssTaggedTemplateObjectWithDomKey, S extends any>(
     props: any,
-    propsTheme: ((style: T, uiStore: object | undefined, porpsFromDom: any, utils: any) => T) | undefined,
+    propsTheme: ((style: T, uiStore: any, porpsFromDom: any, utils: any) => T) | undefined,
     uiTheme: T,
-    uiStore: object | undefined,
+    uiStore: any,
     domKey: string
 )
     :
-    ((style: S, uiStore: object | undefined, porpsFromDom: any, utils: any) => S) | undefined => {
+    ((style: S, uiStore: any, porpsFromDom: any, utils: any) => S) | undefined => {
 
     if (_.isNil(propsTheme) || _.isPlainObject(propsTheme)) {
         // 沒有 propsTheme ，即不覆寫
-        return (style: S, uiStore: object | undefined, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
             return uiTheme?.[domKey] as S;
         }
     }
     else {
         let customTheme = propsTheme(uiTheme, uiStore, props, null)?.[domKey];
-        return (style: S, uiStore: object | undefined, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
             return customTheme as S;
         }
 
@@ -914,9 +914,9 @@ export interface IPropsThemeReturnWithSelectorKey {
  */
 export const extendStylesThemeMaker = <T extends IPropsThemeReturnWithSelectorKey>(
     props: any,
-    propsTheme: ((style: T, uiStore: object | undefined, porpsFromDom: any, utils: any) => T) | undefined,
+    propsTheme: ((style: T, uiStore: any, porpsFromDom: any, utils: any) => T) | undefined,
     uiTheme: T,
-    uiStore: object | undefined,
+    uiStore: any,
     selectorKey: string
 )
     : string => {
@@ -949,23 +949,23 @@ export const extendStylesThemeMaker = <T extends IPropsThemeReturnWithSelectorKe
  */
 export const extendStylesThemeMakerWithDomKey = <T extends IPropsThemeReturnWithSelectorKey, S extends any>(
     props: any,
-    propsTheme: ((style: T, uiStore: object | undefined, porpsFromDom: any, utils: any) => T) | undefined,
+    propsTheme: ((style: T, uiStore: any, porpsFromDom: any, utils: any) => T) | undefined,
     uiTheme: T,
-    uiStore: object | undefined,
+    uiStore: any,
     domKey: string
 )
     :
-    ((style: S, uiStore: object | undefined, porpsFromDom: any, utils: any) => S) | undefined => {
+    ((style: S, uiStore: any, porpsFromDom: any, utils: any) => S) | undefined => {
 
     if (_.isNil(propsTheme) || _.isPlainObject(propsTheme)) {
         // 沒有 propsTheme ，即不覆寫
-        return (style: S, uiStore: object | undefined, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
             return uiTheme?.[domKey] as S;
         }
     }
     else {
         let customTheme = propsTheme(uiTheme, uiStore, props, null)?.[domKey];
-        return (style: S, uiStore: object | undefined, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
             return customTheme as S;
         }
 

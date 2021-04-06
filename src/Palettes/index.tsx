@@ -1,4 +1,4 @@
-import generate from './generate';
+import { generate } from './generate';
 
 export interface PalettesProps {
     [key: string]: string[] & { primary?: string };
@@ -51,7 +51,7 @@ const purple = presetPalettes.purple;
 const magenta = presetPalettes.magenta;
 const grey = presetPalettes.grey;
 
-export {
+export const palettes = {
     generate,
     presetPalettes,
     presetDarkPalettes,

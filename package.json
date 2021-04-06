@@ -1,6 +1,6 @@
 {
   "name": "wowgo-utils",
-  "version": "0.1.7",
+  "version": "0.1.10",
   "license": "MIT",
   "private": false,
   "dependencies": {
