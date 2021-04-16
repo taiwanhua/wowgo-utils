@@ -171,34 +171,34 @@ ${customTheme?.base?.taggedTemplate}
  * @param props 組件的 props
  * @param propsTheme 組件的 props.theme 
  * @param uiTheme 組件的預設樣式物件
- * @param uiStore 符合對應套件包的 wowgoSotre
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
  * @returns 所產生對應的css樣式模板
  * @example
  * 
  */
-export const themeMaker =
+export const themeMaker = <U,>
     (
         props: any,
-        propsTheme: ((style: IcssTaggedTemplateObject, uiStore: any, porpsFromDom: any, utils: any) => IcssTaggedTemplateObject) | undefined,
+        propsTheme: ((style: IcssTaggedTemplateObject, uiStore: U, porpsFromDom: any, utils: any) => IcssTaggedTemplateObject) | undefined,
         uiTheme: IcssTaggedTemplateObject,
-        uiStore: any
+        uiStore: U
     )
-        :
-        string => {
+    :
+    string => {
 
-        if (_.isNil(propsTheme) || _.isPlainObject(propsTheme)) {
-            // 沒有 propsTheme ，即不覆寫
-            return cssTaggedTemplateMaker<IcssTaggedTemplateObject>(uiTheme)
-        }
-        else {
-            let customTheme = propsTheme(uiTheme, uiStore, props, null);
-            return cssTaggedTemplateMaker<IcssTaggedTemplateObject>(customTheme, customTheme?.breakpoints)
-        }
-        // console.log("props", props)
-        // console.log("uiStore", uiStore)
-        // console.log("propsTheme", propsTheme)
-        // console.log("uiTheme", uiTheme)
+    if (_.isNil(propsTheme) || _.isPlainObject(propsTheme)) {
+        // 沒有 propsTheme ，即不覆寫
+        return cssTaggedTemplateMaker<IcssTaggedTemplateObject>(uiTheme)
     }
+    else {
+        let customTheme = propsTheme(uiTheme, uiStore, props, null);
+        return cssTaggedTemplateMaker<IcssTaggedTemplateObject>(customTheme, customTheme?.breakpoints)
+    }
+    // console.log("props", props)
+    // console.log("uiStore", uiStore)
+    // console.log("propsTheme", propsTheme)
+    // console.log("uiTheme", uiTheme)
+}
 
 /**
  * 具有 DomKey 的 IcssTaggedTemplateObject 介面物件
@@ -215,31 +215,31 @@ export interface IcssTaggedTemplateObjectWithDomKey {
  * @param props 組件的 props
  * @param propsTheme 組件的 props.theme 
  * @param uiTheme 組件的預設樣式物件
- * @param uiStore 符合對應套件包的 wowgoSotre
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
  * @param domKey 包裝別的組件時，派發的 Key 值
  * @returns 所產生 themeMaker 函數內所需的 propsTheme 函數
  * @example
  * 
  */
-export const themeMakerWithDomKey = <T extends IcssTaggedTemplateObjectWithDomKey, S extends any>(
+export const themeMakerWithDomKey = <T extends IcssTaggedTemplateObjectWithDomKey, S extends any, U>(
     props: any,
-    propsTheme: ((style: T, uiStore: any, porpsFromDom: any, utils: any) => T) | undefined,
+    propsTheme: ((style: T, uiStore: U, porpsFromDom: any, utils: any) => T) | undefined,
     uiTheme: T,
-    uiStore: any,
+    uiStore: U,
     domKey: string
 )
     :
-    ((style: S, uiStore: any, porpsFromDom: any, utils: any) => S) | undefined => {
+    ((style: S, uiStore: U, porpsFromDom: any, utils: any) => S) | undefined => {
 
     if (_.isNil(propsTheme) || _.isPlainObject(propsTheme)) {
         // 沒有 propsTheme ，即不覆寫
-        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: U, porpsFromDom: any, utils: any) => {
             return uiTheme?.[domKey] as S;
         }
     }
     else {
         let customTheme = propsTheme(uiTheme, uiStore, props, null)?.[domKey];
-        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: U, porpsFromDom: any, utils: any) => {
             return customTheme as S;
         }
 
@@ -355,14 +355,14 @@ export interface IPropsThemeReturnWithSelectorKey {
  * @param props 組件的 props
  * @param propsTheme 組件的 props.theme 
  * @param uiTheme 組件的預設樣式物件
- * @param uiStore 符合對應套件包的 wowgoSotre
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
  * @returns 所產生繼承組件對應的css樣式模板
  */
-export const extendStylesThemeMaker = <T extends IPropsThemeReturnWithSelectorKey>(
+export const extendStylesThemeMaker = <T extends IPropsThemeReturnWithSelectorKey, U>(
     props: any,
-    propsTheme: ((style: T, uiStore: any, porpsFromDom: any, utils: any) => T) | undefined,
+    propsTheme: ((style: T, uiStore: U, porpsFromDom: any, utils: any) => T) | undefined,
     uiTheme: T,
-    uiStore: any,
+    uiStore: U,
     selectorKey: string
 )
     : string => {
@@ -389,29 +389,29 @@ export const extendStylesThemeMaker = <T extends IPropsThemeReturnWithSelectorKe
  * @param props 組件的 props
  * @param propsTheme 組件的 props.theme 
  * @param uiTheme 組件的預設樣式物件
- * @param uiStore 符合對應套件包的 wowgoSotre
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
  * @param domKey 包裝別的組件時，派發的 Key 值
  * @returns 所產生 extendStylesThemeMaker 函數內所需的 propsTheme 函數
  */
-export const extendStylesThemeMakerWithDomKey = <T extends IPropsThemeReturnWithSelectorKey, S extends any>(
+export const extendStylesThemeMakerWithDomKey = <T extends IPropsThemeReturnWithSelectorKey, S extends any, U>(
     props: any,
-    propsTheme: ((style: T, uiStore: any, porpsFromDom: any, utils: any) => T) | undefined,
+    propsTheme: ((style: T, uiStore: U, porpsFromDom: any, utils: any) => T) | undefined,
     uiTheme: T,
-    uiStore: any,
+    uiStore: U,
     domKey: string
 )
     :
-    ((style: S, uiStore: any, porpsFromDom: any, utils: any) => S) | undefined => {
+    ((style: S, uiStore: U, porpsFromDom: any, utils: any) => S) | undefined => {
 
     if (_.isNil(propsTheme) || _.isPlainObject(propsTheme)) {
         // 沒有 propsTheme ，即不覆寫
-        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: U, porpsFromDom: any, utils: any) => {
             return uiTheme?.[domKey] as S;
         }
     }
     else {
         let customTheme = propsTheme(uiTheme, uiStore, props, null)?.[domKey];
-        return (style: S, uiStore: any, porpsFromDom: any, utils: any) => {
+        return (style: S, uiStore: U, porpsFromDom: any, utils: any) => {
             return customTheme as S;
         }
 
@@ -419,4 +419,20 @@ export const extendStylesThemeMakerWithDomKey = <T extends IPropsThemeReturnWith
 }
 
 
+/**
+ * wowgo-UI 預設包含前(或)後綴 css class的函數 
+ * @param suffixCls css class 後綴
+ * @param customizePrefixCls 自定義 css class 前綴
+ * @param combineCustomizePrefix 是否合併自定義 css class 前綴與後綴
+ * @returns 包含前綴或後綴的 css class 
+ * @example
+ * defaultGetPrefixCls("box") // 回傳 "wowgo-box"
+ * defaultGetPrefixCls("box", "prefix") // 回傳 "prefix"
+ * defaultGetPrefixCls("box", "prefix", true) // 回傳 "prefix-box"
+ */
+export const defaultGetPrefixCls = (suffixCls?: string, customizePrefixCls?: string, combineCustomizePrefix?: boolean) => {
+    if (customizePrefixCls) return combineCustomizePrefix ? `${customizePrefixCls}-${suffixCls}` : customizePrefixCls;
+
+    return suffixCls ? `wowgo-${suffixCls}` : 'wowgo';
+};
 

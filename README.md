@@ -1,46 +1,150 @@
-# Getting Started with Create React App
+# wowgo-utils
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+wowgo-utils is an utils package for wowgo project.
 
-## Available Scripts
+please read more...
 
-In the project directory, you can run:
+## install
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+npm i wowgo-utils
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```jsx
+import { ... } from "wowgo-utils";
+```
 
-### `npm test`
+## API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### ThemeHandler :
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### cssTaggedTemplateMaker
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```tsx
+/**
+ * cssTaggedTemplateMaker : 產生對應的css樣式模板
+ * @param customTheme 符合或繼承自 `IcssTaggedTemplateObject` 介面的樣式物件
+ * @param customTheme.consoleKey  若有此參數，則在控制台輸出所產生的css樣式模板
+ * @param breakpoints 要覆寫的 Media query 斷點
+ * @returns 對應的css樣式模板
+ */
+export declare const cssTaggedTemplateMaker: <T extends IcssTaggedTemplateObject>(customTheme: T, breakpoints?: object | undefined) => string;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### themeMaker
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```tsx
+/**
+ * themeMaker : 產生對應的css樣式模板
+ * @param props 組件的 props
+ * @param propsTheme 組件的 props.theme
+ * @param uiTheme 組件的預設樣式物件
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
+ * @returns 所產生對應的css樣式模板
+ */
+export declare const themeMaker: <U>(props: any, propsTheme: ((style: IcssTaggedTemplateObject, uiStore: U, porpsFromDom: any, utils: any) => IcssTaggedTemplateObject) | undefined, uiTheme: IcssTaggedTemplateObject, uiStore: U) => string;
+```
 
-## Learn More
+#### themeMakerWithDomKey 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```tsx
+/**
+ * themeMakerWithDomKey : 對於派發的 domKey，產生 themeMaker 函數內所需的 propsTheme 函數
+ * - \<T extends IPropsThemeReturnWithDomKey, S extends any\>
+ * - T 調用 propsTheme 使用的interface
+ * - S 是 回傳的函數的回傳值使用的 interface
+ * @param props 組件的 props
+ * @param propsTheme 組件的 props.theme
+ * @param uiTheme 組件的預設樣式物件
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
+ * @param domKey 包裝別的組件時，派發的 Key 值
+ * @returns 所產生 themeMaker 函數內所需的 propsTheme 函數
+ */
+export declare const themeMakerWithDomKey: <T extends IcssTaggedTemplateObjectWithDomKey, S extends unknown, U>(props: any, propsTheme: ((style: T, uiStore: U, porpsFromDom: any, utils: any) => T) | undefined, uiTheme: T, uiStore: U, domKey: string) => ((style: S, uiStore: U, porpsFromDom: any, utils: any) => S) | undefined;
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### extendStylesCSSTaggedTemplateMaker
+
+```tsx
+/**
+ * extendStylesCSSTaggedTemplateMaker : 產生繼承組件對應的css樣式模板
+ * @param selectorKey 繼承組件後欲進行覆寫的選擇器 key 名
+ * @param customTheme 符合或繼承自 `IcssTaggedTemplateObject` 介面的樣式物件
+ * @param customTheme.consoleKey  若有此參數，則在控制台輸出所產生的css樣式模板
+ * @param breakpoints 要覆寫的 Media query 斷點
+ * @returns 繼承組件對應的css樣式模板
+ */
+export declare const extendStylesCSSTaggedTemplateMaker: <T extends IcssTaggedTemplateObject>(selectorKey: string, customTheme: T, breakpoints?: object | undefined) => string;
+```
+
+
+
+#### extendStylesThemeMaker 
+
+```tsx
+/**
+ * extendStylesThemeMaker : 產生繼承組件對應的css樣式模板
+ * @param props 組件的 props
+ * @param propsTheme 組件的 props.theme
+ * @param uiTheme 組件的預設樣式物件
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
+ * @returns 所產生繼承組件對應的css樣式模板
+ */
+export declare const extendStylesThemeMaker: <T extends IPropsThemeReturnWithSelectorKey, U>(props: any, propsTheme: ((style: T, uiStore: U, porpsFromDom: any, utils: any) => T) | undefined, uiTheme: T, uiStore: U, selectorKey: string) => string;
+```
+
+#### extendStylesThemeMakerWithDomKey
+
+```tsx
+/**
+ * extendStylesThemeMakerWithDomKey
+ * - \<T extends IPropsThemeReturnWithSelectorKey, S extends any\>
+ * - T 調用 propsTheme 使用的interface
+ * - S 是 回傳的函數的回傳值使用的 interface
+ * @param props 組件的 props
+ * @param propsTheme 組件的 props.theme
+ * @param uiTheme 組件的預設樣式物件
+ * @param uiStore 符合對應套件包的 wowgoSotre，需指定其介面 U
+ * @param domKey 包裝別的組件時，派發的 Key 值
+ * @returns 所產生 extendStylesThemeMaker 函數內所需的 propsTheme 函數
+ */
+export declare const extendStylesThemeMakerWithDomKey: <T extends IPropsThemeReturnWithSelectorKey, S extends unknown, U>(props: any, propsTheme: ((style: T, uiStore: U, porpsFromDom: any, utils: any) => T) | undefined, uiTheme: T, uiStore: U, domKey: string) => ((style: S, uiStore: U, porpsFromDom: any, utils: any) => S) | undefined;
+```
+
+#### defaultGetPrefixCls
+
+```tsx
+/**
+ * wowgo-UI 預設包含前(或)後綴 css class的函數
+ * @param suffixCls css class 後綴
+ * @param customizePrefixCls 自定義 css class 前綴
+ * @param combineCustomizePrefix 是否合併自定義 css class 前綴與後綴
+ * @returns 包含前綴或後綴的 css class
+ * @example
+ * defaultGetPrefixCls("box") // 回傳 "wowgo-box"
+ * defaultGetPrefixCls("box", "prefix") // 回傳 "prefix"
+ * defaultGetPrefixCls("box", "prefix", true) // 回傳 "prefix-box"
+ */
+export declare const defaultGetPrefixCls: (suffixCls?: string | undefined, customizePrefixCls?: string | undefined, combineCustomizePrefix?: boolean | undefined) => string;
+```
+
+
+
+### Hooks
+
+
+
+
+
+### Utils
+
+
+
